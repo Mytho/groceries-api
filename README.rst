@@ -10,15 +10,9 @@ A simple RESTful API to manage your grocery list.
 Development
 -----------
 
-Make sure the `Heroku Toolbelt`_ is properly installed.
-
-To run a development server, execute::
-
-  $> make httpd
-
-To clean up and run all tests, run::
-
-  $> make test
+Make sure that the `Heroku Toolbelt`_ is properly installed and that the
+environment variable ``DATABASE_URL`` is set to point to the correct
+development database.
 
 All commands that could be used during development, can be found in the
 ``Makefile``.

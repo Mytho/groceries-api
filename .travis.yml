@@ -5,11 +5,8 @@ install:
   - pip install -r requirements.txt
   - pip install -r requirements-dev.txt
 script:
-  - flake8 bin
-  - flake8 application
-  - flake8 tests
-  - coverage run --source application --module pytest tests
-  - coverage report --fail-under=100 --show-missing
+  - make check
+  - make unittest
 deploy:
   provider: heroku
   strategy: git
@@ -20,5 +17,7 @@ deploy:
     python: 2.7
   app:
     master: groceries-api
+  run:
+    - make migrate
 notifications:
   email: false

@@ -1,4 +1,4 @@
-from __future__ import absolute_import
+from os import environ
 from flask import Flask
 
 from application.views import login
@@ -6,6 +6,8 @@ from application.errors import init_errors
 
 
 app = Flask(__name__)
+app.config.setdefault('SQLALCHEMY_DATABASE_URI', environ.get('DATABASE_URL'))
+
 init_errors(app)
 
 routes = {'/login': login}
