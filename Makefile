@@ -1,6 +1,14 @@
 all: help
 
+check:
+	flake8 application
+
+clean:
+	find . -name '__pycache__' -delete -o -name '*.pyc' -delete
+
 help:
+	@echo 'check     -- check the code syntax'
+	@echo 'clean     -- cleanup the environment'
 	@echo 'help      -- display this information'
 	@echo 'httpd     -- start a local development server'
 	@echo 'install   -- install all dependencies'
@@ -10,7 +18,7 @@ help:
 httpd:
 	foreman start web -p 8001
 
-test: uninstall install
+test: uninstall clean install check
 	py.test
 
 install:
