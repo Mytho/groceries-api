@@ -29,7 +29,7 @@ install:
 
 unittest:
 	coverage run --source application --module pytest tests
-	coverage report --fail-under=90 --show-missing
+	coverage report --fail-under=100 --show-missing
 
 uninstall:
 	- pip uninstall --yes -r requirements.txt

@@ -9,9 +9,10 @@ script:
   - flake8 application
   - flake8 tests
   - coverage run --source application --module pytest tests
-  - coverage report --fail-under=90 --show-missing
+  - coverage report --fail-under=100 --show-missing
 deploy:
   provider: heroku
+  strategy: git
   api_key:
     secure: T6KUVz3f6q4jn/l2sM8FqFHRodSwHvBSJzepJrrkgIY6rWWtojrbCO/gp25/KCsQjbRK0ClfVCI3RxG5+gwwpEKwi7whh3ix6IStlMpXlSDpZuC4GqKHQU3f59h8GBx6tpxLyhjORA+0QpHD1Qb7rrDd+nEMHNjSLo6UHbXrcZE=
   on:
