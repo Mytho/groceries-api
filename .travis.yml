@@ -1,7 +1,18 @@
 language: python
 python:
-  - "2.7"
+  - 2.7
 install:
-  - "pip install -r requirements.txt"
+  - pip install -r requirements.txt
 script:
-  - "py.test"
+  - py.test
+deploy:
+  provider: heroku
+  api_key:
+    secure: T6KUVz3f6q4jn/l2sM8FqFHRodSwHvBSJzepJrrkgIY6rWWtojrbCO/gp25/KCsQjbRK0ClfVCI3RxG5+gwwpEKwi7whh3ix6IStlMpXlSDpZuC4GqKHQU3f59h8GBx6tpxLyhjORA+0QpHD1Qb7rrDd+nEMHNjSLo6UHbXrcZE=
+  on:
+    branch: master
+    python: 2.7
+  app:
+    master: groceries-api
+notifications:
+  email: false
