@@ -1,4 +1,4 @@
-"""create user table
+"""create users table
 
 Revision ID: bb124c0db57
 Revises:
@@ -17,11 +17,11 @@ import sqlalchemy as sa
 
 
 def upgrade():
-    op.create_table('user',
+    op.create_table('users',
             sa.Column('id', sa.Integer, primary_key=True),
             sa.Column('username', sa.String(64), nullable=False, unique=True),
             sa.Column('password', sa.String(64), nullable=False))
 
 
 def downgrade():
-    op.drop_table('user')
+    op.drop_table('users')

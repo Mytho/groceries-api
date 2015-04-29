@@ -8,6 +8,9 @@ from logging.config import fileConfig
 # access to the values within the .ini file in use.
 config = context.config
 
+# Use the environment variable as the URL for SQLAlchemy
+config.set_main_option('sqlalchemy.url', environ.get('DATABASE_URL'))
+
 # Interpret the config file for Python logging.
 # This line sets up loggers basically.
 fileConfig(config.config_file_name)
@@ -36,7 +39,7 @@ def run_migrations_offline():
     script output.
 
     """
-    url = environ.get('DATABASE_URL')
+    url = config.get_main_option('sqlalchemy.url')
     context.configure(url=url, target_metadata=target_metadata)
 
     with context.begin_transaction():
