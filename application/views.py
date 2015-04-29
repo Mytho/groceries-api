@@ -1,5 +1,3 @@
-from __future__ import absolute_import
-
 from flask import jsonify, request
 from flask.views import MethodView
 from werkzeug.exceptions import Forbidden
