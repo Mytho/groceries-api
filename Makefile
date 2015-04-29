@@ -1,6 +1,7 @@
 all: help
 
 check:
+	flake8 bin
 	flake8 application
 
 clean:
@@ -16,7 +17,7 @@ help:
 	@echo 'uninstall -- uninstall all dependencies'
 
 httpd:
-	python -m application/__init__
+	./bin/httpd.py -H 0.0.0.0 -p 8001 -d
 
 test: uninstall clean install check
 	py.test
