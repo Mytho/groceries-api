@@ -4,7 +4,11 @@ python:
 install:
   - pip install -r requirements-dev.txt
 script:
-  - py.test
+  - flake8 bin
+  - flake8 application
+  - flake8 tests
+  - coverage run --source application --module pytest tests
+  - coverage report --fail-under=90 --show-missing
 deploy:
   provider: heroku
   api_key:
