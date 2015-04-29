@@ -16,7 +16,7 @@ help:
 	@echo 'uninstall -- uninstall all dependencies'
 
 httpd:
-	foreman start web -p 8001
+	python -m application/__init__
 
 test: uninstall clean install check
 	py.test
