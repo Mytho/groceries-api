@@ -1,5 +1,7 @@
 import os
 import pytest
+from alembic.command import upgrade
+from alembic.config import Config
 
 from application.core import make_app
 from application.models import db as _db
@@ -32,7 +34,13 @@ def client(app):
 
 
 @pytest.fixture(scope='session')
-def db(app):
+def db(app, request):
     _db.app = app
     _db.create_all()
+    upgrade(Config(os.path.abspath('alembic.ini')), 'head')
+
+    def teardown():
+        _db.drop_all()
+
+    request.addfinalizer(teardown)
     return _db
