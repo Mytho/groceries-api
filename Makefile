@@ -23,8 +23,7 @@ install:
 	pip install -r requirements-dev.txt
 
 uninstall:
-	- pip uninstall --yes -r requirements.txt
-	- pip uninstall --yes -r requirements-dev.txt
+	- pip freeze | xargs pip uninstall --yes
 
 # Automated testing
 
