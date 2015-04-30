@@ -18,9 +18,9 @@ import sqlalchemy as sa
 
 def upgrade():
     op.create_table('users',
-            sa.Column('id', sa.Integer, primary_key=True),
-            sa.Column('username', sa.String(128), nullable=False, unique=True),
-            sa.Column('password', sa.String(128), nullable=False))
+        sa.Column('id', sa.Integer, primary_key=True),
+        sa.Column('username', sa.String(128), nullable=False, unique=True),
+        sa.Column('password', sa.String(128), nullable=False))
 
 
 def downgrade():
