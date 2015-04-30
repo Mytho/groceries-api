@@ -4,7 +4,6 @@ from alembic import command
 from alembic.config import Config
 
 from application.core import make_app
-from application.models import User
 from application.models import db as _db
 
 
