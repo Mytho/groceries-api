@@ -1,7 +1,7 @@
 from flask import jsonify, request
 from flask.views import MethodView
 from functools import wraps
-from werkzeug.exceptions import Forbidden
+from werkzeug.exceptions import Forbidden, NotFound
 
 from application.models import User
 
@@ -22,8 +22,13 @@ class Item(MethodView):
 
     decorators = [authenticated]
 
-    def get(self):
-        return jsonify(hello='world')
+    def get(self, id=None):
+        if not id:
+            return jsonify([item.as_dict() for item in Item.query.all()])
+        item = Item.query.filter(Item.id == id).first()
+        if not item:
+            raise NotFound()
+        return jsonify(item.as_dict())
 
 
 class Login(MethodView):

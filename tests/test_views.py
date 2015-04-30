@@ -12,12 +12,13 @@ def test_authenticated_forbidden(client):
 
 class TestItem():
 
-    def test_get(self, client, user):
+    def test_get(self, client, user, items):
         headers = {'Content-Type': 'application/json',
                    'X-Auth-Token': encode_token(dict(id=user.id))}
         resp = client.get('/item', headers=headers)
         assert resp.headers.get('Content-Type') == 'application/json'
         assert resp.status_code == 200
+        assert resp.body == json.encode(items)
 
 
 class TestLogin():

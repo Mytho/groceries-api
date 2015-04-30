@@ -20,14 +20,30 @@ def encode_token(payload):
     return jwt.encode(payload, os.environ.get('JWT_SECRET'))
 
 
+class Item(db.Model):
+
+    __tablename__ = 'items'
+
+    id = sa.Column('id', sa.Integer, primary_key=True)
+    name = sa.Column('name', sa.String(255), nullable=False)
+    is_bought = sa.Column('is_bought', sa.Boolean, default=False,
+                          nullable=False)
+    modified = sa.Column('modified', sa.DateTime, default=sa.func.now(),
+                         onupdate=sa.func.now(), nullable=False)
+
+    def as_dict(self):
+        return dict(id=self.id, name=self.name, is_bought=self.is_bought,
+                    modified=self.modified)
+
+
 class User(db.Model):
 
     __tablename__ = 'users'
 
     id = sa.Column('id', sa.Integer, primary_key=True)
-    username = sa.Column('username', sa.String(64), nullable=False,
+    username = sa.Column('username', sa.String(128), nullable=False,
                          unique=True)
-    password = sa.Column('password', sa.String(64), nullable=False)
+    password = sa.Column('password', sa.String(128), nullable=False)
 
     def __init__(self, username, password):
         self.username = username

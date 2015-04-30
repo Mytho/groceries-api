@@ -4,7 +4,7 @@ from alembic import command
 from alembic.config import Config
 
 from application.core import make_app
-from application.models import User, db as _db
+from application.models import Item, User, db as _db
 
 
 os.environ['DATABASE_URL'] = 'sqlite:///:memory:'
@@ -48,6 +48,18 @@ def db(app, request):
 
     request.addfinalizer(teardown)
     return _db
+
+
+@pytest.fixture(scope='function')
+def items(db):
+    apple = Item(name='apple')
+    banana = Item(name='banana')
+    cucumber = Item(name='cucumber')
+    dill = Item(name='dill')
+    eggplant = Item(name='eggplant')
+    db.session.add_all([apple, banana, cucumber, dill, eggplant])
+    db.session.commit()
+    return [item.as_dict() for item in Item.query.all()]
 
 
 @pytest.fixture(scope='session')
