@@ -48,6 +48,23 @@ class TestItem():
         assert json.loads(resp.data).get('name') == 'zucchini'
         assert json.loads(resp.data).get('is_bought') is False
 
+    def test_put(self, client, user, items):
+        item = items.pop()
+        assert item.is_bought is False
+        headers = {'Content-Type': 'application/json',
+                   'X-Auth-Token': encode_token(dict(id=user.id))}
+        resp = client.put('/item/{}'.format(item.id), headers=headers)
+        assert resp.headers.get('Content-Type') == 'application/json'
+        assert resp.status_code == 200
+        assert json.loads(resp.data).get('is_bought') is True
+
+    def test_put_not_found(self, client, user):
+        headers = {'Content-Type': 'application/json',
+                   'X-Auth-Token': encode_token(dict(id=user.id))}
+        resp = client.put('/item/{}'.format(99999), headers=headers)
+        assert resp.headers.get('Content-Type') == 'application/json'
+        assert resp.status_code == 404
+
 
 class TestLogin():
 

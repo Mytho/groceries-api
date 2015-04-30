@@ -40,6 +40,14 @@ class ItemView(MethodView):
         db.session.commit()
         return jsonify(item.as_dict())
 
+    def put(self, id=None):
+        item = Item.query.get(id)
+        if not item:
+            raise NotFound()
+        item.is_bought = not item.is_bought
+        db.session.commit()
+        return jsonify(item.as_dict())
+
 
 class LoginView(MethodView):
 
