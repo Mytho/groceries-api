@@ -1,6 +1,6 @@
 import json
 
-from application.models import encode_token
+from application.models import Item, encode_token
 
 
 def test_authenticated_forbidden(client):
@@ -62,6 +62,22 @@ class TestItem():
         headers = {'Content-Type': 'application/json',
                    'X-Auth-Token': encode_token(dict(id=user.id))}
         resp = client.put('/item/{}'.format(99999), headers=headers)
+        assert resp.headers.get('Content-Type') == 'application/json'
+        assert resp.status_code == 404
+
+    def test_delete(self, client, user, items):
+        item = items.pop()
+        headers = {'Content-Type': 'application/json',
+                   'X-Auth-Token': encode_token(dict(id=user.id))}
+        resp = client.delete('/item/{}'.format(item.id), headers=headers)
+        assert resp.headers.get('Content-Type') == 'application/json'
+        assert resp.status_code == 200
+        assert item not in Item.query.all()
+
+    def test_delete_not_found(self, client, user):
+        headers = {'Content-Type': 'application/json',
+                   'X-Auth-Token': encode_token(dict(id=user.id))}
+        resp = client.delete('/item/{}'.format(99999), headers=headers)
         assert resp.headers.get('Content-Type') == 'application/json'
         assert resp.status_code == 404
 

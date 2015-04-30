@@ -48,6 +48,14 @@ class ItemView(MethodView):
         db.session.commit()
         return jsonify(item.as_dict())
 
+    def delete(self, id=None):
+        item = Item.query.get(id)
+        if not item:
+            raise NotFound()
+        db.session.delete(item)
+        db.session.commit()
+        return jsonify(status='ok')
+
 
 class LoginView(MethodView):
 
