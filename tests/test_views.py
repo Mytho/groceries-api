@@ -37,6 +37,17 @@ class TestItem():
         for item in items:
             assert item.as_dict() in json.loads(resp.data).get('items', [])
 
+    def test_post(self, client, user):
+        headers = {'Content-Type': 'application/json',
+                   'X-Auth-Token': encode_token(dict(id=user.id))}
+        resp = client.post('/item', headers=headers,
+                           data=json.dumps(dict(name='zucchini')))
+        assert resp.headers.get('Content-Type') == 'application/json'
+        assert resp.status_code == 200
+        assert json.loads(resp.data).get('id') > 0
+        assert json.loads(resp.data).get('name') == 'zucchini'
+        assert json.loads(resp.data).get('is_bought') is False
+
 
 class TestLogin():
 

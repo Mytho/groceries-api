@@ -1,10 +1,11 @@
+import json
 from flask import jsonify, request
 from flask.views import MethodView
 from functools import wraps
 from jwt.exceptions import DecodeError
 from werkzeug.exceptions import Forbidden, NotFound
 
-from application.models import Item, User
+from application.models import Item, User, db
 
 
 def authenticated(f):
@@ -30,6 +31,13 @@ class ItemView(MethodView):
         item = Item.query.get(id)
         if not item:
             raise NotFound()
+        return jsonify(item.as_dict())
+
+    def post(self):
+        data = json.loads(request.data)
+        item = Item(name=data.get('name'))
+        db.session.add(item)
+        db.session.commit()
         return jsonify(item.as_dict())
 
 
