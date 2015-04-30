@@ -32,7 +32,7 @@ def client(app):
 
 
 @pytest.fixture(scope='session')
-def db(app, request):
+def db(app):
     _db.app = app
     _db.create_all()
     return _db
