@@ -16,6 +16,9 @@ clean:
 httpd:
 	./bin/httpd.py -H 0.0.0.0 -p 8001 -d
 
+user:
+	./bin/add-user.py
+
 # Installation of dependencies
 
 install:
