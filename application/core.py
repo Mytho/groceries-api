@@ -1,9 +1,17 @@
 import os
-from flask import Flask
+from flask import Flask, jsonify
+from werkzeug.http import HTTP_STATUS_CODES
 
 from application.views import item, login
-from application.errors import init_errors
 from application.models import init_models
+
+
+def error_handler(error):
+    resp = jsonify(code=error.code,
+                   name=error.name,
+                   description=error.description)
+    resp.status_code = error.code
+    return resp
 
 
 def make_app(config={}):
@@ -12,9 +20,10 @@ def make_app(config={}):
         'SQLALCHEMY_DATABASE_URI': os.environ.get('DATABASE_URL'),
     })
     app.config.update(config)
-
-    init_errors(app)
     init_models(app)
+
+    for code in [k for k, v in HTTP_STATUS_CODES.items() if k >= 400]:
+        app.error_handler_spec[None][code] = error_handler
 
     routes = {
         '/login': login,
