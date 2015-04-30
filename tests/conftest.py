@@ -4,7 +4,7 @@ from alembic import command
 from alembic.config import Config
 
 from application.core import make_app
-from application.models import db as _db
+from application.models import User, db as _db
 
 
 os.environ['DATABASE_URL'] = 'sqlite:///:memory:'
@@ -48,3 +48,13 @@ def db(app, request):
 
     request.addfinalizer(teardown)
     return _db
+
+
+@pytest.fixture(scope='session')
+def user(db):
+    password = 'letmein'
+    user = User(username='tester', password=password)
+    user.plaintext_password = password
+    db.session.add(user)
+    db.session.commit()
+    return user

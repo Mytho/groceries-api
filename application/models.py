@@ -1,8 +1,8 @@
+import os
+import jwt
 import sqlalchemy as sa
 from flask.ext.sqlalchemy import SQLAlchemy
 from werkzeug.security import check_password_hash, generate_password_hash
-
-from application.auth import encode_token
 
 
 db = SQLAlchemy()
@@ -10,6 +10,14 @@ db = SQLAlchemy()
 
 def init_models(app):
     db.init_app(app)
+
+
+def decode_token(token):
+    return jwt.decode(token, os.environ.get('JWT_SECRET'))
+
+
+def encode_token(payload):
+    return jwt.encode(payload, os.environ.get('JWT_SECRET'))
 
 
 class User(db.Model):
@@ -24,6 +32,11 @@ class User(db.Model):
     def __init__(self, username, password):
         self.username = username
         self.password = generate_password_hash(password)
+
+    @staticmethod
+    def by_token(token):
+        payload = decode_token(token)
+        return User.query.filter(User.id == payload.get('id')).first()
 
     @staticmethod
     def by_username(username):
