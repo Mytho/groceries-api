@@ -10,7 +10,7 @@ class TestLogin():
         db.session.add(user)
         db.session.commit()
         headers = {'Content-Type': 'application/json'}
-        data = json.dumps({'username': 'tester'})
+        data = json.dumps(dict(username='tester', password='tester'))
         resp = client.post('/login', headers=headers, data=data)
         assert resp.headers.get('Content-Type') == 'application/json'
         assert resp.status_code == 200

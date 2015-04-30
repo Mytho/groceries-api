@@ -9,8 +9,8 @@ class Login(MethodView):
 
     def post(self):
         data = request.get_json()
-        user = User.by_username(data.get('username'))
-        if not user:
+        user = User.by_username(data.get('username', ''))
+        if not user or not user.check_password(data.get('password', '')):
             raise Forbidden()
         return jsonify(token=user.token())
 
