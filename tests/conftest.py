@@ -1,13 +1,16 @@
 import os
 import pytest
-from alembic.command import upgrade
+from alembic import command
 from alembic.config import Config
 
 from application.core import make_app
+from application.models import User
 from application.models import db as _db
 
 
-os.environ['DATABASE_URL'] = 'sqlite://'
+DB_PATH = '/tmp/groceries-api.db'
+
+os.environ['DATABASE_URL'] = 'sqlite:///{}'.format(DB_PATH)
 os.environ['JWT_SECRET'] = 'A_VERY_SECRET_KEY'
 
 
@@ -35,12 +38,17 @@ def client(app):
 
 @pytest.fixture(scope='session')
 def db(app, request):
+    if os.path.exists(DB_PATH):
+        os.unlink(DB_PATH)
+
     _db.app = app
-    _db.create_all()
-    upgrade(Config(os.path.abspath('alembic.ini')), 'head')
+
+    config = Config(os.path.abspath('alembic.ini'))
+    command.upgrade(config, 'head')
 
     def teardown():
         _db.drop_all()
+        os.unlink(DB_PATH)
 
     request.addfinalizer(teardown)
     return _db
