@@ -1,24 +1,23 @@
 import json
 
-from application.core import app
+from application.models import User
 
 
 class TestLogin():
 
-    def test_post(self):
-        with app.app_context():
-            client = app.test_client()
-            headers = {'Content-Type': 'application/json'}
-            data = json.dumps({'username': 'tester'})
-            resp = client.post('/login', headers=headers, data=data)
-            assert resp.headers.get('Content-Type') == 'application/json'
-            assert resp.status_code == 200
+    def test_post(self, db, client):
+        user = User(username='tester', password='tester')
+        db.session.add(user)
+        db.session.commit()
+        headers = {'Content-Type': 'application/json'}
+        data = json.dumps({'username': 'tester'})
+        resp = client.post('/login', headers=headers, data=data)
+        assert resp.headers.get('Content-Type') == 'application/json'
+        assert resp.status_code == 200
 
-    def test_post_forbidden(self):
-        with app.app_context():
-            client = app.test_client()
-            headers = {'Content-Type': 'application/json'}
-            data = json.dumps({'incorrect': 'data'})
-            resp = client.post('/login', headers=headers, data=data)
-            assert resp.headers.get('Content-Type') == 'application/json'
-            assert resp.status_code == 403
+    def test_post_forbidden(self, db, client):
+        headers = {'Content-Type': 'application/json'}
+        data = json.dumps({'incorrect': 'data'})
+        resp = client.post('/login', headers=headers, data=data)
+        assert resp.headers.get('Content-Type') == 'application/json'
+        assert resp.status_code == 403
