@@ -32,8 +32,7 @@ class Item(db.Model):
                          onupdate=sa.func.now(), nullable=False)
 
     def as_dict(self):
-        return dict(id=self.id, name=self.name, is_bought=self.is_bought,
-                    modified=self.modified)
+        return dict(id=self.id, name=self.name, is_bought=self.is_bought)
 
 
 class User(db.Model):

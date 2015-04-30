@@ -26,8 +26,9 @@ def make_app(config={}):
         app.error_handler_spec[None][code] = error_handler
 
     routes = {
+        '/item': item,
+        '/item/<int:id>': item,
         '/login': login,
-        '/item': item
     }
 
     for endpoint, func in routes.iteritems():

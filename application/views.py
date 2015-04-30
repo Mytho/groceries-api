@@ -1,9 +1,10 @@
 from flask import jsonify, request
 from flask.views import MethodView
 from functools import wraps
+from jwt.exceptions import DecodeError
 from werkzeug.exceptions import Forbidden, NotFound
 
-from application.models import User
+from application.models import Item, User
 
 
 def authenticated(f):
@@ -12,26 +13,27 @@ def authenticated(f):
         try:
             if User.by_token(request.headers.get('X-Auth-Token', '')):
                 return f(*args, **kwargs)
-        except:
+        except DecodeError:
             pass
         raise Forbidden()
     return decorated_function
 
 
-class Item(MethodView):
+class ItemView(MethodView):
 
     decorators = [authenticated]
 
     def get(self, id=None):
         if not id:
-            return jsonify([item.as_dict() for item in Item.query.all()])
-        item = Item.query.filter(Item.id == id).first()
+            items = Item.query.filter(Item.is_bought == 0).all()
+            return jsonify(items=[item.as_dict() for item in items])
+        item = Item.query.get(id)
         if not item:
             raise NotFound()
         return jsonify(item.as_dict())
 
 
-class Login(MethodView):
+class LoginView(MethodView):
 
     def post(self):
         data = request.get_json()
@@ -41,5 +43,5 @@ class Login(MethodView):
         return jsonify(token=user.token())
 
 
-item = Item.as_view('item')
-login = Login.as_view('login')
+item = ItemView.as_view('item')
+login = LoginView.as_view('login')

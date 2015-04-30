@@ -59,7 +59,7 @@ def items(db):
     eggplant = Item(name='eggplant')
     db.session.add_all([apple, banana, cucumber, dill, eggplant])
     db.session.commit()
-    return [item.as_dict() for item in Item.query.all()]
+    return Item.query.all()
 
 
 @pytest.fixture(scope='session')

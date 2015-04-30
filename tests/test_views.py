@@ -13,12 +13,29 @@ def test_authenticated_forbidden(client):
 class TestItem():
 
     def test_get(self, client, user, items):
+        item = items.pop()
+        headers = {'Content-Type': 'application/json',
+                   'X-Auth-Token': encode_token(dict(id=user.id))}
+        resp = client.get('/item/{}'.format(item.id), headers=headers)
+        assert resp.headers.get('Content-Type') == 'application/json'
+        assert resp.status_code == 200
+        assert json.loads(resp.data) == item.as_dict()
+
+    def test_get_not_found(self, client, user):
+        headers = {'Content-Type': 'application/json',
+                   'X-Auth-Token': encode_token(dict(id=user.id))}
+        resp = client.get('/item/{}'.format(99999), headers=headers)
+        assert resp.headers.get('Content-Type') == 'application/json'
+        assert resp.status_code == 404
+
+    def test_get_all(self, client, user, items):
         headers = {'Content-Type': 'application/json',
                    'X-Auth-Token': encode_token(dict(id=user.id))}
         resp = client.get('/item', headers=headers)
         assert resp.headers.get('Content-Type') == 'application/json'
         assert resp.status_code == 200
-        assert resp.body == json.encode(items)
+        for item in items:
+            assert item.as_dict() in json.loads(resp.data).get('items', [])
 
 
 class TestLogin():
