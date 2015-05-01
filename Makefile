@@ -14,7 +14,7 @@ clean:
 	find . -name '__pycache__' -delete -o -name '*.pyc' -delete
 
 httpd:
-	./bin/httpd.py -H 0.0.0.0 -p 8001 -d
+	./bin/httpd.py -H 0.0.0.0 -p 8002 -d
 
 user:
 	./bin/add-user.py
