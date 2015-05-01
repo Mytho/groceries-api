@@ -1,24 +1,24 @@
 language: python
 python:
-  - 2.7
+- 2.7
 install:
-  - pip install -r requirements.txt
-  - pip install -r requirements-dev.txt
+- pip install -r requirements.txt
+- pip install -r requirements-dev.txt
 script:
-  - make check
-  - make unittest
-  - make clean
+- make check
+- make unittest
+- make clean
 deploy:
   provider: heroku
   strategy: git
   api_key:
-    secure: T6KUVz3f6q4jn/l2sM8FqFHRodSwHvBSJzepJrrkgIY6rWWtojrbCO/gp25/KCsQjbRK0ClfVCI3RxG5+gwwpEKwi7whh3ix6IStlMpXlSDpZuC4GqKHQU3f59h8GBx6tpxLyhjORA+0QpHD1Qb7rrDd+nEMHNjSLo6UHbXrcZE=
+    secure: NNaCl2oAfahWe5/nQ+C4QWznkOOfZNdhfJbywHnvW6GlP1VDAeKO+Ae8OKYNhwIU3WV3XdFuMUCruTZTlhMCgLxqDfz1oJFtUk1leOoKXH4s1LpsuIm0T0DD6mMwPdbYHJfDWJqmbhzAsQ/1DP/u7V36BKQMyAAf5aYq5iG85ng=
   on:
     branch: master
     python: 2.7
   app:
     master: groceries-api
   run:
-    - make migrate
+  - make migrate
 notifications:
   email: false
