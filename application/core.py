@@ -1,5 +1,6 @@
 import os
 from flask import Flask, jsonify
+from flask.ext.cors import CORS
 from werkzeug.http import HTTP_STATUS_CODES
 
 from application.views import item, login
@@ -20,10 +21,16 @@ def make_app(config={}):
         'SQLALCHEMY_DATABASE_URI': os.environ.get('DATABASE_URL'),
     })
     app.config.update(config)
+
     init_models(app)
 
     for code in [k for k, v in HTTP_STATUS_CODES.items() if k >= 400]:
         app.error_handler_spec[None][code] = error_handler
+
+    CORS(app, resourses={
+        r'/*': dict(allow_headers=['Content-Type'],
+                    methods=['GET', 'POST', 'PUT', 'DELETE'])
+    })
 
     routes = {
         '/item': item,
