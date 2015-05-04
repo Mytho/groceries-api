@@ -98,3 +98,13 @@ class TestLogin():
         resp = client.post('/login', headers=headers, data=data)
         assert resp.headers.get('Content-Type') == 'application/json'
         assert resp.status_code == 403
+
+
+class TestSuggest():
+
+    def test_get(self, client, user):
+        headers = {'Content-Type': 'application/json',
+                   'X-Auth-Token': encode_token(dict(id=user.id))}
+        resp = client.get('/suggest', headers=headers)
+        assert resp.headers.get('Content-Type') == 'application/json'
+        assert resp.status_code == 200
