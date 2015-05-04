@@ -1,4 +1,5 @@
 import json
+import sqlalchemy as sa
 from flask import jsonify, request
 from flask.views import MethodView
 from functools import wraps
@@ -26,7 +27,9 @@ class ItemView(MethodView):
 
     def get(self, id=None):
         if not id:
-            items = Item.query.filter(Item.is_bought == bool(0)).all()
+            items = Item.query.filter(Item.is_bought == bool(0))\
+                        .order_by(Item.created)\
+                        .all()
             return jsonify(items=[item.as_dict() for item in items])
         item = Item.query.get(id)
         if not item:
@@ -67,5 +70,18 @@ class LoginView(MethodView):
         return jsonify(token=user.token())
 
 
+class SuggestView(MethodView):
+
+    decorators = [authenticated]
+
+    def get(self, id=None):
+        items = db.session\
+            .query(Item.name, sa.func.count(Item.name).label('count'))\
+            .group_by(Item.name)\
+            .all()
+        return jsonify(suggestions=dict(items))
+
+
 item = ItemView.as_view('item')
 login = LoginView.as_view('login')
+suggest = SuggestView.as_view('suggest')

@@ -3,7 +3,7 @@ from flask import Flask, jsonify
 from flask.ext.cors import CORS
 from werkzeug.http import HTTP_STATUS_CODES
 
-from application.views import item, login
+from application.views import item, login, suggest
 from application.models import init_models
 
 
@@ -36,6 +36,7 @@ def make_app(config={}):
         '/item': item,
         '/item/<int:id>': item,
         '/login': login,
+        '/suggest': suggest
     }
 
     for endpoint, func in routes.iteritems():
