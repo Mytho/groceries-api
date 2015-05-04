@@ -1,4 +1,5 @@
 import json
+import sqlalchemy as sa
 from flask import jsonify, request
 from flask.views import MethodView
 from functools import wraps
@@ -69,5 +70,18 @@ class LoginView(MethodView):
         return jsonify(token=user.token())
 
 
+class SuggestView(MethodView):
+
+    decorators = [authenticated]
+
+    def get(self, id=None):
+        items = db.session\
+            .query(Item.name, sa.func.count(Item.name).label('count'))\
+            .group_by(Item.name)\
+            .all()
+        return jsonify(suggestions=dict(items))
+
+
 item = ItemView.as_view('item')
 login = LoginView.as_view('login')
+suggest = SuggestView.as_view('suggest')
