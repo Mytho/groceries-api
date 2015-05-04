@@ -26,7 +26,9 @@ class ItemView(MethodView):
 
     def get(self, id=None):
         if not id:
-            items = Item.query.filter(Item.is_bought == bool(0)).all()
+            items = Item.query.filter(Item.is_bought == bool(0))\
+                        .order_by(Item.created)\
+                        .all()
             return jsonify(items=[item.as_dict() for item in items])
         item = Item.query.get(id)
         if not item:

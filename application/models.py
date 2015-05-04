@@ -28,6 +28,8 @@ class Item(db.Model):
     name = sa.Column('name', sa.String(255), nullable=False)
     is_bought = sa.Column('is_bought', sa.Boolean, default=False,
                           nullable=False)
+    created = sa.Column('created', sa.DateTime, default=sa.func.now(),
+                        nullable=False)
     modified = sa.Column('modified', sa.DateTime, default=sa.func.now(),
                          onupdate=sa.func.now(), nullable=False)
 
