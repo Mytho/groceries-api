@@ -79,7 +79,8 @@ class SuggestView(MethodView):
             .query(Item.name, sa.func.count(Item.name).label('count'))\
             .group_by(Item.name)\
             .all()
-        return jsonify(suggestions=dict(items))
+        return jsonify(suggestions=[dict(count=item.count, name=item.name)
+                                    for item in items])
 
 
 item = ItemView.as_view('item')
