@@ -70,6 +70,16 @@ class LoginView(MethodView):
         return jsonify(token=user.token())
 
 
+class StatusView(MethodView):
+
+    def get(self):
+        try:
+            db.session.query(sa.func.count(Item.id).label('count')).all()
+        except:
+            return jsonify(status='error')
+        return jsonify(status='ok')
+
+
 class SuggestView(MethodView):
 
     decorators = [authenticated]
@@ -85,4 +95,5 @@ class SuggestView(MethodView):
 
 item = ItemView.as_view('item')
 login = LoginView.as_view('login')
+status = StatusView.as_view('status')
 suggest = SuggestView.as_view('suggest')

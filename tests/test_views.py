@@ -1,4 +1,6 @@
 import json
+import sqlalchemy as sa
+from mock import patch
 
 from application.models import Item, encode_token
 
@@ -98,6 +100,22 @@ class TestLogin():
         resp = client.post('/login', headers=headers, data=data)
         assert resp.headers.get('Content-Type') == 'application/json'
         assert resp.status_code == 403
+
+
+class TestStatus():
+
+    def test_get(self, client):
+        resp = client.get('/status')
+        assert resp.headers.get('Content-Type') == 'application/json'
+        assert resp.status_code == 200
+
+    @patch('application.models.db.session.query',
+           return_value=sa.exc.TimeoutError('Connection timed out'))
+    def test_get_exception(self, patched_method, client):
+        resp = client.get('/status')
+        assert patched_method.call_count == 1
+        assert resp.headers.get('Content-Type') == 'application/json'
+        assert resp.status_code == 200
 
 
 class TestSuggest():
