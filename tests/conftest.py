@@ -4,7 +4,7 @@ from alembic import command
 from alembic.config import Config
 
 from application.core import make_app
-from application.models import Item, User, db as _db
+from application.models import Item, User, db as _db, encode_token
 
 
 os.environ['DATABASE_URL'] = 'sqlite:///:memory:'
@@ -30,7 +30,7 @@ def app(request):
 
 @pytest.fixture(scope='session')
 def client(app):
-    return app.test_client()
+    return TestClient(app)
 
 
 @pytest.fixture(scope='session')
@@ -70,3 +70,22 @@ def user(db):
     db.session.add(user)
     db.session.commit()
     return user
+
+
+class TestClient(object):
+
+    def __init__(self, app):
+        self.app = app
+
+    def open(self, http_method, url, headers={}, data=None, user=None,
+             assert_status_code=200, assert_headers={}):
+        headers = {'Content-Type': 'application/json'}
+        if user:
+            headers['X-Auth-Token'] = encode_token(dict(id=user.id))
+        client = self.app.test_client()
+        method = getattr(client, http_method.lower())
+        resp = method(url, headers=headers, data=data)
+        assert resp.status_code == assert_status_code
+        for key, val in assert_headers:
+            assert resp.headers[key] == val
+        return resp
