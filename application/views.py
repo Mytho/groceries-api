@@ -1,10 +1,9 @@
-import json
 import sqlalchemy as sa
 from flask import jsonify, request
 from flask.views import MethodView
 from functools import wraps
 from jwt.exceptions import DecodeError
-from werkzeug.exceptions import Forbidden, NotFound
+from werkzeug.exceptions import BadRequest, Forbidden, NotFound
 
 from application.models import Item, User, db
 
@@ -37,13 +36,15 @@ class ItemView(MethodView):
         return jsonify(item.as_dict())
 
     def post(self):
-        data = json.loads(request.data)
+        data = request.get_json()
         item = Item(name=data.get('name'))
         db.session.add(item)
         db.session.commit()
         return jsonify(item.as_dict())
 
     def put(self, id=None):
+        if not id:
+            raise BadRequest()
         item = Item.query.get(id)
         if not item:
             raise NotFound()
@@ -52,6 +53,8 @@ class ItemView(MethodView):
         return jsonify(item.as_dict())
 
     def delete(self, id=None):
+        if not id:
+            raise BadRequest()
         item = Item.query.get(id)
         if not item:
             raise NotFound()
@@ -84,7 +87,7 @@ class SuggestView(MethodView):
 
     decorators = [authenticated]
 
-    def get(self, id=None):
+    def get(self):
         items = db.session\
             .query(Item.name, sa.func.count(Item.name).label('count'))\
             .group_by(Item.name)\
