@@ -46,6 +46,9 @@ class TestItem():
         client.open('put', '/item/{}'.format(99999), user=user,
                     assert_status_code=404)
 
+    def test_put_empty(self, client, user):
+        client.open('put', '/item', user=user, assert_status_code=400)
+
     def test_delete(self, client, user, items):
         item = items.pop()
         client.open('delete', '/item/{}'.format(item.id), user=user)
@@ -54,6 +57,9 @@ class TestItem():
     def test_delete_not_found(self, client, user):
         client.open('delete', '/item/{}'.format(99999), user=user,
                     assert_status_code=404)
+
+    def test_delete_empty(self, client, user):
+        client.open('delete', '/item', user=user, assert_status_code=400)
 
 
 class TestLogin():
