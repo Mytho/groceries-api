@@ -4,7 +4,7 @@ from flask import jsonify, request
 from flask.views import MethodView
 from functools import wraps
 from jwt.exceptions import DecodeError
-from werkzeug.exceptions import Forbidden, NotFound
+from werkzeug.exceptions import BadRequest, Forbidden, NotFound
 
 from application.models import Item, User, db
 
@@ -37,6 +37,8 @@ class ItemView(MethodView):
         return jsonify(item.as_dict())
 
     def post(self):
+        if not request.data:
+            raise BadRequest
         data = json.loads(request.data)
         item = Item(name=data.get('name'))
         db.session.add(item)

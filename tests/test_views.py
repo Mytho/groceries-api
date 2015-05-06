@@ -50,6 +50,13 @@ class TestItem():
         assert json.loads(resp.data).get('name') == 'zucchini'
         assert json.loads(resp.data).get('is_bought') is False
 
+    def test_post_empty(self, client, user):
+        headers = {'Content-Type': 'application/json',
+                   'X-Auth-Token': encode_token(dict(id=user.id))}
+        resp = client.post('/item', headers=headers)
+        assert resp.headers.get('Content-Type') == 'application/json'
+        assert resp.status_code == 400
+
     def test_put(self, client, user, items):
         item = items.pop()
         assert item.is_bought is False
