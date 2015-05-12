@@ -29,8 +29,8 @@ def make_app(config={}):
 
     CORS(app, resourses={
         r'/*': dict(allow_headers=['Content-Type'],
-                    methods=['GET', 'POST', 'PUT', 'DELETE'])
-    })
+                    methods=['GET', 'POST', 'PUT', 'DELETE'],
+                    origins='*')})
 
     routes = {
         '/item': item,
