@@ -21,6 +21,6 @@ deploy:
   run:
   - make migrate
 after_success:
-  coverage
+  coveralls
 notifications:
   email: false
