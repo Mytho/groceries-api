@@ -20,5 +20,7 @@ deploy:
     master: groceries-api
   run:
   - make migrate
+after_success:
+  coverage
 notifications:
   email: false
