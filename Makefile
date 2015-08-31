@@ -39,7 +39,8 @@ unittest:
 	coverage run --source application --module pytest tests
 	coverage report --fail-under=100 --show-missing
 
-test: uninstall clean install check unittest
+test: check
+	tox
 
 # DB Migrations
 

@@ -1,4 +1,6 @@
 import os
+import six
+
 from flask import Flask, jsonify
 from flask.ext.cors import CORS
 from werkzeug.http import HTTP_STATUS_CODES
@@ -40,7 +42,7 @@ def make_app(config={}):
         '/suggest': suggest
     }
 
-    for endpoint, func in routes.iteritems():
+    for endpoint, func in six.iteritems(routes):
         app.add_url_rule(endpoint, view_func=func)
 
     return app
