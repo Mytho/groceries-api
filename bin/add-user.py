@@ -3,6 +3,8 @@ import getpass
 import os
 import sys
 
+from six.moves import input
+
 sys.path.append(os.path.abspath('.'))
 
 from application.core import app
@@ -12,7 +14,7 @@ from application.models import User, db
 def main():
     with app.app_context():
         print('Create new user.')
-        username = raw_input('Username: ')
+        username = input('Username: ')
         passwd = password()
         user = User(username=username, password=passwd)
         db.session.add(user)
