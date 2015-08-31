@@ -70,7 +70,7 @@ class LoginView(MethodView):
         user = User.by_username(data.get('username', ''))
         if not user or not user.check_password(data.get('password', '')):
             raise Forbidden()
-        return jsonify(token=user.token())
+        return jsonify(token=user.token().decode('utf-8'))
 
 
 class StatusView(MethodView):
