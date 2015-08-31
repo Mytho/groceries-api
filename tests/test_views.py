@@ -14,7 +14,7 @@ class TestItem():
     def test_get(self, client, user, items):
         item = items.pop()
         resp = client.open('get', '/item/{}'.format(item.id), user=user)
-        assert json.loads(resp.data) == item.as_dict()
+        assert json.loads(resp.data.decode('utf-8')) == item.as_dict()
 
     def test_get_not_found(self, client, user):
         client.open('get', '/item/{}'.format(99999), user=user,
@@ -23,14 +23,16 @@ class TestItem():
     def test_get_all(self, client, user, items):
         resp = client.open('get', '/item', user=user)
         for item in items:
-            assert item.as_dict() in json.loads(resp.data).get('items', [])
+            assert item.as_dict() in json.loads(resp.data.decode('utf-8'))\
+                                         .get('items', [])
 
     def test_post(self, client, user):
         resp = client.open('post', '/item',
                            data=json.dumps(dict(name='zucchini')), user=user)
-        assert json.loads(resp.data).get('id') > 0
-        assert json.loads(resp.data).get('name') == 'zucchini'
-        assert json.loads(resp.data).get('is_bought') is False
+        data = resp.data.decode('utf-8')
+        assert json.loads(data).get('id') > 0
+        assert json.loads(data).get('name') == 'zucchini'
+        assert json.loads(data).get('is_bought') is False
 
     def test_post_empty(self, client, user):
         resp = client.open('post', '/item', user=user, assert_status_code=400)
@@ -40,7 +42,7 @@ class TestItem():
         item = items.pop()
         assert item.is_bought is False
         resp = client.open('put', '/item/{}'.format(item.id), user=user)
-        assert json.loads(resp.data).get('is_bought') is True
+        assert json.loads(resp.data.decode('utf-8')).get('is_bought') is True
 
     def test_put_not_found(self, client, user):
         client.open('put', '/item/{}'.format(99999), user=user,

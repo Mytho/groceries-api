@@ -3,3 +3,4 @@ coveralls==0.5
 flake8==2.4.0
 mock==1.0.1
 pytest==2.7.0
+tox==2.1.1
