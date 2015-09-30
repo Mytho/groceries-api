@@ -15,7 +15,7 @@ Installation
 
 To install the dependencies run::
 
-  python setup.py install
+  pip install -e .
 
 Make sure that the `Heroku Toolbelt`_ is properly installed. Furthermore the
 code needs two environment variables to be set.
