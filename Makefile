@@ -6,9 +6,8 @@ help:
 	@echo 'help      -- display this information'
 	@echo 'httpd     -- start a local development server'
 	@echo 'install   -- install all dependencies'
-	@echo 'test      -- test the all code'
+	@echo 'user      -- add a user account'
 	@echo 'unittest  -- run the unittests'
-	@echo 'uninstall -- uninstall all dependencies'
 
 check:
 	flake8 --show-source bin application tests
