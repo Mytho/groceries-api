@@ -4,7 +4,7 @@ python:
 - 3.3
 - 3.4
 install:
-- make install
+- python setup.py install
 script:
 - make check
 - make unittest
@@ -19,7 +19,7 @@ deploy:
   app:
     master: groceries-api
   run:
-  - make migrate
+  - alembic upgrade head
 after_success:
   coveralls
 notifications:

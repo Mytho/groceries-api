@@ -19,7 +19,11 @@ code needs two environment variables to be set.
 - ``DATABASE_URL`` should point to the development database.
 - ``JWT_SECRET`` should contain a secret string to be used as signing key.
 
-All commands that could be used during development, can be found in the
+To install all development dependencies run::
+
+  pip install -e ".[dev]"
+
+Other commands that could be useful during development, can be found in the
 ``Makefile``.
 
   .. _`Heroku Toolbelt`: https://toolbelt.heroku.com/
