@@ -1,4 +1,5 @@
 import sqlalchemy as sa
+
 from flask import jsonify, request
 from flask.views import MethodView
 from functools import wraps
