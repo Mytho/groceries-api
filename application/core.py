@@ -9,6 +9,11 @@ from application.views import item, login, status, suggest
 from application.models import init_models
 
 
+def app(environ, start_response):
+    app = make_app()
+    return app(environ, start_response)
+
+
 def error_handler(error):
     resp = jsonify(code=error.code,
                    name=error.name,
@@ -46,6 +51,3 @@ def make_app(config={}):
         app.add_url_rule(endpoint, view_func=func)
 
     return app
-
-
-app = make_app()
