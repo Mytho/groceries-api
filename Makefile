@@ -22,5 +22,5 @@ user:
 	./bin/add-user.py
 
 unittest:
-	coverage run --source application --module pytest tests
+	coverage run --source application --module pytest tests --assert=plain
 	coverage report --fail-under=100 --show-missing
