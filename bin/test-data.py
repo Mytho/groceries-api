@@ -6,7 +6,7 @@ from six.moves import input
 
 sys.path.append(os.path.abspath('.'))
 
-from application.core import app
+from application.core import make_app
 from application.models import Item, db
 
 
@@ -18,6 +18,7 @@ def add_item(count, name, is_bought):
 
 
 def fill():
+    app = make_app()
     with app.app_context():
         db.engine.execute('DELETE FROM items WHERE 0 = 0;')
         add_item(3, 'apples', True)

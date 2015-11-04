@@ -7,11 +7,12 @@ from six.moves import input
 
 sys.path.append(os.path.abspath('.'))
 
-from application.core import app
+from application.core import make_app
 from application.models import User, db
 
 
 def main():
+    app = make_app()
     with app.app_context():
         print('Create new user.')
         username = input('Username: ')
