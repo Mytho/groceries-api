@@ -21,5 +21,5 @@ user:
 	./bin/add-user.py
 
 test:
-	coverage run --source application --module pytest tests --assert=plain
+	coverage run --source application,clock --module pytest tests --assert=plain
 	coverage report --fail-under=100 --show-missing
