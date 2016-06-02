@@ -28,6 +28,7 @@ setup(
         'gunicorn==19.3.0',
         'psycopg2==2.6.1',
         'PyJWT==1.1.0',
+        'requests==2.8.1',
         'six==1.9.0',
     ],
     extras_require={
