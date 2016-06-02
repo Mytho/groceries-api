@@ -21,6 +21,7 @@ setup(
     include_package_data=True,
     install_requires=[
         'alembic==0.7.5.post2',
+        'APScheduler==3.1.0',
         'Flask==0.10.1',
         'Flask-Cors==2.0.0',
         'Flask-SQLAlchemy==2.0',
