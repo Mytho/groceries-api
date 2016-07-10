@@ -1,7 +1,7 @@
 .. image:: https://api.travis-ci.org/tzengerink/groceries-api.svg
   :target: https://travis-ci.org/tzengerink/groceries-api
 
-.. image:: https://coveralls.io/repos/tzengerink/groceries-api/badge.svg?branch=master&service=github
+.. image:: https://coveralls.io/repos/github/tzengerink/groceries-api/badge.svg?branch=master
   :target: https://coveralls.io/github/tzengerink/groceries-api?branch=master
 
 =============
