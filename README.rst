@@ -1,8 +1,8 @@
-.. image:: https://api.travis-ci.org/Mytho/groceries-api.svg
-  :target: https://travis-ci.org/Mytho/groceries-api
+.. image:: https://api.travis-ci.org/tzengerink/groceries-api.svg
+  :target: https://travis-ci.org/tzengerink/groceries-api
 
-.. image:: https://coveralls.io/repos/Mytho/groceries-api/badge.svg?branch=master&service=github
-  :target: https://coveralls.io/github/Mytho/groceries-api?branch=master
+.. image:: https://coveralls.io/repos/tzengerink/groceries-api/badge.svg?branch=master&service=github
+  :target: https://coveralls.io/github/tzengerink/groceries-api?branch=master
 
 =============
 GROCERIES API
