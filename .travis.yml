@@ -13,7 +13,7 @@ deploy:
   provider: heroku
   strategy: git
   api_key:
-    secure: NNaCl2oAfahWe5/nQ+C4QWznkOOfZNdhfJbywHnvW6GlP1VDAeKO+Ae8OKYNhwIU3WV3XdFuMUCruTZTlhMCgLxqDfz1oJFtUk1leOoKXH4s1LpsuIm0T0DD6mMwPdbYHJfDWJqmbhzAsQ/1DP/u7V36BKQMyAAf5aYq5iG85ng=
+    secure: js1LTXFUgrBB4N8AtAdKLhMr1Gf+pdohvgFlFG+4RgKIG/qNGp6RqJXlAoIQ5tBMYHn6iN912XBDXoeTNDQQmvPbpGrxwuiUFQK/B/3U5e6PwDzR/Z+YMANKDPyhjUy1M66o1jonxLzL8L04gXo9SHVYOwIgJKMHrDHjldqlmrU=
   on:
     branch: master
     python: 2.7
@@ -21,7 +21,6 @@ deploy:
     master: groceries-api
   run:
   - alembic upgrade head
-after_success:
-  coveralls
+after_success: coveralls
 notifications:
   email: false

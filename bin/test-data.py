@@ -43,28 +43,19 @@ def main():
         fill()
 
 
-def query_yes_no(question, default="no"):
-    valid = {"yes": True, "y": True, "ye": True,
-             "no": False, "n": False}
-    if default is None:
-        prompt = " [y/n] "
-    elif default == "yes":
-        prompt = " [Y/n] "
-    elif default == "no":
-        prompt = " [y/N] "
-    else:
-        raise ValueError("invalid default answer: '%s'" % default)
+def query_yes_no(question):
+    valid = {"y": True, "n": False}
+    prompt = " [y/N] "
 
     while True:
         sys.stdout.write(question + prompt)
         choice = input().lower()
-        if default is not None and choice == '':
-            return valid[default]
+        if not choice:
+            return False
         elif choice in valid:
             return valid[choice]
         else:
-            sys.stdout.write("Please respond with 'yes' or 'no' "
-                             "(or 'y' or 'n').\n")
+            sys.stdout.write("Please respond with 'y' or 'n'.\n")
 
 
 if __name__ == '__main__':
